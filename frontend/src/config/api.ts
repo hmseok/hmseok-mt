@@ -1,13 +1,57 @@
-import axios from 'axios';
-
 // 단순한 환경 감지 - process.env 사용하지 않음
 const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const API_BASE_URL = isDevelopment ? 'http://localhost:8080' : 'https://api.carrepair.hmseok.com';
+const API_BASE_URL = isDevelopment ? 'http://localhost:8080' : 'http://54.180.88.243:8080';
 
 console.log('API Base URL:', API_BASE_URL);
 console.log('Current hostname:', window.location.hostname);
 
-// axios 기본 설정
-axios.defaults.baseURL = API_BASE_URL;
+// fetch 기반 API 클라이언트
+const apiClient = {
+  async get(url: string) {
+    const response = await fetch(`${API_BASE_URL}${url}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  },
 
-export default axios; 
+  async post(url: string, data: any) {
+    const response = await fetch(`${API_BASE_URL}${url}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  },
+
+  async put(url: string, data: any) {
+    const response = await fetch(`${API_BASE_URL}${url}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  },
+
+  async delete(url: string) {
+    const response = await fetch(`${API_BASE_URL}${url}`, {
+      method: 'DELETE',
+    });
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.json();
+  },
+};
+
+export default apiClient; 

@@ -8,7 +8,7 @@ const Navigation: React.FC = () => {
   const navItems = [
     { path: '/', label: '대시보드' },
     { path: '/customers', label: '고객 관리' },
-    { path: '/cars', label: '차량 관리' },
+    { path: '/vehicle-info', label: '차량정보' },
     { path: '/accidents', label: '사고 관리' },
     { path: '/estimates', label: '견적 관리' },
     { path: '/repairs', label: '정비 관리' },

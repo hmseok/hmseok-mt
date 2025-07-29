@@ -1,20 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../config/api';
+import apiClient from '../config/api';
 import './EstimateList.css';
 
 interface Estimate {
   id: number;
-  totalCost: number;
-  createdAt: string;
-  accident: {
-    id: number;
-    car: {
-      number: string;
-      customer: {
-        name: string;
-      };
-    };
-  };
+  accidentId: number;
+  carNumber: string;
+  estimateDate: string;
+  totalAmount: number;
+  status: string;
 }
 
 const EstimateList: React.FC = () => {
@@ -27,8 +21,8 @@ const EstimateList: React.FC = () => {
 
   const fetchEstimates = async () => {
     try {
-      const response = await axios.get('/api/estimates');
-      setEstimates(response.data);
+      const data = await apiClient.get('/api/estimates');
+      setEstimates(data);
     } catch (error) {
       console.error('견적 목록을 불러오는데 실패했습니다:', error);
     } finally {
@@ -48,20 +42,20 @@ const EstimateList: React.FC = () => {
           <thead>
             <tr>
               <th>ID</th>
-              <th>총 견적 금액</th>
-              <th>견적일</th>
               <th>차량번호</th>
-              <th>고객명</th>
+              <th>견적일자</th>
+              <th>총 금액</th>
+              <th>상태</th>
             </tr>
           </thead>
           <tbody>
             {estimates.map((estimate) => (
               <tr key={estimate.id}>
                 <td>{estimate.id}</td>
-                <td>{estimate.totalCost.toLocaleString()}원</td>
-                <td>{estimate.createdAt}</td>
-                <td>{estimate.accident.car.number}</td>
-                <td>{estimate.accident.car.customer.name}</td>
+                <td>{estimate.carNumber}</td>
+                <td>{estimate.estimateDate}</td>
+                <td>{estimate.totalAmount.toLocaleString()}원</td>
+                <td>{estimate.status}</td>
               </tr>
             ))}
           </tbody>

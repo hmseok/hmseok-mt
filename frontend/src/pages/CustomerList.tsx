@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from '../config/api';
+import apiClient from '../config/api';
 import './CustomerList.css';
 
 interface Customer {
@@ -19,8 +19,8 @@ const CustomerList: React.FC = () => {
 
   const fetchCustomers = async () => {
     try {
-      const response = await axios.get('/api/customers');
-      setCustomers(response.data);
+      const data = await apiClient.get('/api/customers');
+      setCustomers(data);
     } catch (error) {
       console.error('고객 목록을 불러오는데 실패했습니다:', error);
     } finally {
