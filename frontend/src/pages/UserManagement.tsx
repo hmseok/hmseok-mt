@@ -18,7 +18,6 @@ const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [pendingUsers, setPendingUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState<'all' | 'pending'>('all');
 
   useEffect(() => {
@@ -32,13 +31,17 @@ const UserManagement: React.FC = () => {
         fetch('http://54.180.88.243:8080/api/users/pending')
       ]);
 
-      const allUsers = await allUsersResponse.json();
-      const pendingUsers = await pendingUsersResponse.json();
+      if (allUsersResponse.ok) {
+        const allUsers = await allUsersResponse.json();
+        setUsers(allUsers);
+      }
 
-      setUsers(allUsers);
-      setPendingUsers(pendingUsers);
-    } catch (err) {
-      setError('사용자 목록을 불러오는데 실패했습니다');
+      if (pendingUsersResponse.ok) {
+        const pending = await pendingUsersResponse.json();
+        setPendingUsers(pending);
+      }
+    } catch (error) {
+      console.error('사용자 정보를 가져오는데 실패했습니다:', error);
     } finally {
       setLoading(false);
     }
@@ -48,87 +51,65 @@ const UserManagement: React.FC = () => {
     try {
       const response = await fetch(`http://54.180.88.243:8080/api/users/${userId}/approve`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
       });
 
-      const data = await response.json();
-      if (data.success) {
-        alert('사용자가 승인되었습니다');
-        fetchUsers(); // 목록 새로고침
-      } else {
-        alert('사용자 승인에 실패했습니다');
+      if (response.ok) {
+        fetchUsers();
       }
-    } catch (err) {
-      alert('서버 연결에 실패했습니다');
+    } catch (error) {
+      console.error('사용자 승인에 실패했습니다:', error);
     }
   };
 
   const handleSuspendUser = async (userId: number) => {
-    if (!confirm('정말로 이 사용자를 정지하시겠습니까?')) return;
-
     try {
       const response = await fetch(`http://54.180.88.243:8080/api/users/${userId}/suspend`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
       });
 
-      const data = await response.json();
-      if (data.success) {
-        alert('사용자가 정지되었습니다');
-        fetchUsers(); // 목록 새로고침
-      } else {
-        alert('사용자 정지에 실패했습니다');
+      if (response.ok) {
+        fetchUsers();
       }
-    } catch (err) {
-      alert('서버 연결에 실패했습니다');
+    } catch (error) {
+      console.error('사용자 정지에 실패했습니다:', error);
     }
   };
 
   const handleDeleteUser = async (userId: number) => {
-    if (!confirm('정말로 이 사용자를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.')) return;
+    if (!window.confirm('정말로 이 사용자를 삭제하시겠습니까?')) return;
 
     try {
       const response = await fetch(`http://54.180.88.243:8080/api/users/${userId}`, {
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
       });
 
-      const data = await response.json();
-      if (data.success) {
-        alert('사용자가 삭제되었습니다');
-        fetchUsers(); // 목록 새로고침
-      } else {
-        alert('사용자 삭제에 실패했습니다');
+      if (response.ok) {
+        fetchUsers();
       }
-    } catch (err) {
-      alert('서버 연결에 실패했습니다');
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'ACTIVE': return 'green';
-      case 'PENDING': return 'orange';
-      case 'SUSPENDED': return 'red';
-      case 'DELETED': return 'gray';
-      default: return 'gray';
+    } catch (error) {
+      console.error('사용자 삭제에 실패했습니다:', error);
     }
   };
 
   const getRoleDisplayName = (role: string) => {
-    switch (role) {
-      case 'ADMIN': return '관리자';
-      case 'EMPLOYEE': return '임직원';
-      case 'PARTNER': return '거래처';
-      case 'SUPPLIER': return '협력업체';
-      default: return role;
-    }
+    const roleMap: { [key: string]: string } = {
+      'ADMIN': '시스템 관리자',
+      'EMPLOYEE': '직원',
+      'PARTNER': '비즈니스 파트너',
+      'SUPPLIER': '협력사'
+    };
+    return roleMap[role] || role;
+  };
+
+  const getStatusBadge = (status: string) => {
+    const statusMap: { [key: string]: { text: string; className: string } } = {
+      'PENDING': { text: '승인 대기', className: 'status-pending' },
+      'ACTIVE': { text: '활성', className: 'status-active' },
+      'SUSPENDED': { text: '정지', className: 'status-suspended' },
+      'DELETED': { text: '삭제', className: 'status-deleted' }
+    };
+    const statusInfo = statusMap[status] || { text: status, className: 'status-unknown' };
+    return <span className={`status-badge ${statusInfo.className}`}>{statusInfo.text}</span>;
   };
 
   const formatDate = (dateString: string) => {
@@ -137,34 +118,44 @@ const UserManagement: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="loading">사용자 목록을 불러오는 중...</div>;
+    return (
+      <div className="user-management-container">
+        <div className="loading-spinner-container">
+          <div className="loading-spinner"></div>
+          <p>사용자 정보를 불러오는 중...</p>
+        </div>
+      </div>
+    );
   }
-
-  if (error) {
-    return <div className="error">{error}</div>;
-  }
-
-  const currentUsers = activeTab === 'all' ? users : pendingUsers;
 
   return (
-    <div className="user-management">
-      <div className="page-header">
-        <h1>👥 사용자 관리</h1>
-        <p>시스템 사용자 계정을 관리합니다</p>
+    <div className="user-management-container">
+      <div className="user-management-header">
+        <h1 className="user-management-title">👥 사용자 관리</h1>
+        <p className="user-management-subtitle">시스템 사용자들을 관리하고 모니터링합니다</p>
       </div>
 
       <div className="stats-cards">
         <div className="stat-card">
-          <h3>총 사용자</h3>
-          <p>{users.length}명</p>
+          <div className="stat-icon">👥</div>
+          <div className="stat-content">
+            <div className="stat-number">{users.length}</div>
+            <div className="stat-label">전체 사용자</div>
+          </div>
         </div>
         <div className="stat-card">
-          <h3>승인 대기</h3>
-          <p>{pendingUsers.length}명</p>
+          <div className="stat-icon">⏳</div>
+          <div className="stat-content">
+            <div className="stat-number">{pendingUsers.length}</div>
+            <div className="stat-label">승인 대기</div>
+          </div>
         </div>
         <div className="stat-card">
-          <h3>활성 사용자</h3>
-          <p>{users.filter(u => u.status === 'ACTIVE').length}명</p>
+          <div className="stat-icon">✅</div>
+          <div className="stat-content">
+            <div className="stat-number">{users.filter(u => u.status === 'ACTIVE').length}</div>
+            <div className="stat-label">활성 사용자</div>
+          </div>
         </div>
       </div>
 
@@ -183,15 +174,13 @@ const UserManagement: React.FC = () => {
         </button>
       </div>
 
-      <div className="user-table-container">
-        <table className="user-table">
+      <div className="users-table-container">
+        <table className="users-table">
           <thead>
             <tr>
-              <th>ID</th>
               <th>사용자명</th>
               <th>이름</th>
               <th>이메일</th>
-              <th>전화번호</th>
               <th>역할</th>
               <th>상태</th>
               <th>가입일</th>
@@ -200,46 +189,45 @@ const UserManagement: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {currentUsers.map((user) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.username}</td>
-                <td>{user.fullName}</td>
-                <td>{user.email}</td>
-                <td>{user.phoneNumber || '-'}</td>
-                <td>{getRoleDisplayName(user.role)}</td>
-                <td>
-                  <span className={`status-badge status-${getStatusColor(user.status)}`}>
-                    {user.status}
-                  </span>
+            {(activeTab === 'all' ? users : pendingUsers).map((user) => (
+              <tr key={user.id} className={!user.isActive ? 'inactive-user' : ''}>
+                <td className="user-username">{user.username}</td>
+                <td className="user-name">{user.fullName}</td>
+                <td className="user-email">{user.email}</td>
+                <td className="user-role">
+                  <span className="role-badge">{getRoleDisplayName(user.role)}</span>
                 </td>
-                <td>{formatDate(user.createdAt)}</td>
-                <td>{formatDate(user.lastLogin)}</td>
-                <td>
-                  <div className="action-buttons">
-                    {user.status === 'PENDING' && (
-                      <button
-                        onClick={() => handleApproveUser(user.id)}
-                        className="approve-button"
-                      >
-                        승인
-                      </button>
-                    )}
-                    {user.status === 'ACTIVE' && (
-                      <button
-                        onClick={() => handleSuspendUser(user.id)}
-                        className="suspend-button"
-                      >
-                        정지
-                      </button>
-                    )}
+                <td className="user-status">
+                  {getStatusBadge(user.status)}
+                </td>
+                <td className="user-date">{formatDate(user.createdAt)}</td>
+                <td className="user-date">{formatDate(user.lastLogin)}</td>
+                <td className="user-actions">
+                  {user.status === 'PENDING' && (
                     <button
-                      onClick={() => handleDeleteUser(user.id)}
-                      className="delete-button"
+                      className="action-button approve-button"
+                      onClick={() => handleApproveUser(user.id)}
+                      title="승인"
                     >
-                      삭제
+                      ✅
                     </button>
-                  </div>
+                  )}
+                  {user.status === 'ACTIVE' && (
+                    <button
+                      className="action-button suspend-button"
+                      onClick={() => handleSuspendUser(user.id)}
+                      title="정지"
+                    >
+                      ⏸️
+                    </button>
+                  )}
+                  <button
+                    className="action-button delete-button"
+                    onClick={() => handleDeleteUser(user.id)}
+                    title="삭제"
+                  >
+                    🗑️
+                  </button>
                 </td>
               </tr>
             ))}

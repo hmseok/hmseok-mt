@@ -1,11 +1,49 @@
 .App {
   display: flex;
   min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.main-content {
+.content {
   flex: 1;
   padding: 20px;
-  background-color: #f5f5f5;
-  margin-left: 250px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 0 20px 20px 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+/* 모바일 레이아웃 */
+@media (max-width: 768px) {
+  .App {
+    flex-direction: column;
+  }
+  
+  .content {
+    padding: 15px;
+    border-radius: 20px 20px 0 0;
+    margin-top: 10px;
+  }
+}
+
+/* 태블릿 레이아웃 */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .content {
+    padding: 25px;
+  }
+}
+
+/* 데스크톱 레이아웃 */
+@media (min-width: 1025px) {
+  .content {
+    padding: 30px;
+  }
+}
+
+/* 작은 화면에서 스크롤 최적화 */
+@media (max-height: 600px) {
+  .content {
+    padding: 10px;
+  }
 } 
