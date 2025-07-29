@@ -1,188 +1,171 @@
-# 자동차 정비 관리 시스템 (Car Repair Management System)
+# Car Repair Management System
 
-## 📋 프로젝트 개요
+자동차 수리 관리 시스템 - 고객, 차량, 사고, 견적, 정비, 스케줄, 할일 관리를 위한 웹 애플리케이션입니다.
 
-Spring Boot + React + MySQL을 사용한 자동차 정비 관리 시스템입니다.
-엑셀 파일 업로드 기능과 스케줄 관리 기능을 포함합니다.
+## 🚀 빠른 시작
 
-## 🚀 주요 기능
+### 로컬 개발 환경
 
-### 백엔드 (Spring Boot)
-- **고객 관리**: 고객 정보 CRUD
-- **차량 관리**: 차량 정보 CRUD + 엑셀 업로드
-- **사고 관리**: 사고 정보 관리
-- **견적 관리**: 견적 정보 관리
-- **정비 관리**: 정비 작업 관리
-- **회계 관리**: 수입/지출 관리
-- **스케줄 관리**: 업무 일정 관리
-- **투두 관리**: 할일 관리
-- **엑셀 업로드**: 차량 정보 일괄 업로드
-
-### 프론트엔드 (React)
-- **반응형 UI**: 모던한 사용자 인터페이스
-- **캘린더 뷰**: 스케줄 캘린더 표시
-- **필터링**: 담당자, 상태, 업무종류별 필터
-- **실시간 데이터**: 백엔드 API 연동
-
-## 🛠 기술 스택
-
-### 백엔드
-- **Java 17**
-- **Spring Boot 3.5.3**
-- **Spring Data JPA**
-- **MySQL 8.0**
-- **Apache POI** (엑셀 처리)
-- **Gradle**
-
-### 프론트엔드
-- **React 18**
-- **TypeScript**
-- **Webpack**
-- **Axios**
-- **React Router DOM**
-- **react-calendar**
-
-## 📦 설치 및 실행
-
-### 1. 저장소 클론
 ```bash
-git clone <repository-url>
-cd auto-repair-management
-```
-
-### 2. 백엔드 실행
-
-#### 로컬 MySQL 사용
-```bash
+# 백엔드 실행
 cd backend
-./gradlew bootRun --args='--spring.profiles.active=local'
-```
+./gradlew bootRun
 
-#### AWS RDS 사용
-```bash
-# 환경 변수 설정
-export DB_HOST=your-rds-endpoint.region.rds.amazonaws.com
-export DB_PORT=3306
-export DB_NAME=accident_local
-export DB_USERNAME=admin
-export DB_PASSWORD=your-password
-
-# 애플리케이션 실행
-cd backend
-./gradlew bootRun --args='--spring.profiles.active=prod'
-```
-
-### 3. 프론트엔드 실행
-```bash
+# 프론트엔드 실행 (새 터미널)
 cd frontend
-npm install
 npm start
 ```
 
-### 4. 브라우저 접속
-- **프론트엔드**: http://localhost:3000
-- **백엔드 API**: http://localhost:8080
+### Docker를 사용한 배포
 
-## 📊 데이터베이스 설정
+```bash
+# 전체 애플리케이션 배포
+./deploy.sh
 
-### 로컬 MySQL 설정
-```sql
-CREATE DATABASE accident_local;
-CREATE USER 'hmseok'@'localhost' IDENTIFIED BY '!homin1019';
-GRANT ALL PRIVILEGES ON accident_local.* TO 'hmseok'@'localhost';
-FLUSH PRIVILEGES;
+# 또는 수동으로
+docker-compose up -d
 ```
 
-### AWS RDS 설정
-자세한 설정 방법은 [AWS_RDS_SETUP.md](./AWS_RDS_SETUP.md)를 참조하세요.
+## 🌐 도메인 연동 옵션
+
+### 1. GitHub Pages 배포
+```bash
+cd frontend
+npm run deploy
+```
+- URL: `https://hmseok.github.io/car-repair-management`
+
+### 2. Netlify 배포
+1. Netlify에 GitHub 저장소 연결
+2. Build command: `npm run build`
+3. Publish directory: `dist`
+4. 환경 변수 설정: `REACT_APP_API_URL=https://api.carrepair.hmseok.com`
+
+### 3. Vercel 배포
+```bash
+npm install -g vercel
+vercel
+```
+
+### 4. AWS EC2 배포
+```bash
+# EC2 인스턴스에서 실행
+git clone <repository>
+cd auto-repair-management
+./deploy.sh
+```
+
+## 🔧 환경 설정
+
+### 백엔드 설정 (application.properties)
+```properties
+# AWS RDS MySQL 설정
+spring.datasource.url=jdbc:mysql://hmseok-mt-db.cp62mcmg4epg.ap-northeast-2.rds.amazonaws.com:3306/accident_local
+spring.datasource.username=admin
+spring.datasource.password=Homin3231
+```
+
+### 프론트엔드 설정 (src/config/api.ts)
+```typescript
+const API_BASE_URL = process.env.REACT_APP_API_URL || 
+  (process.env.NODE_ENV === 'production' 
+    ? 'https://api.carrepair.hmseok.com'
+    : 'http://localhost:8080');
+```
 
 ## 📁 프로젝트 구조
 
 ```
 auto-repair-management/
 ├── backend/                 # Spring Boot 백엔드
-│   ├── src/main/java/
-│   │   └── com/example/carrepair/
-│   │       ├── controller/  # REST API 컨트롤러
-│   │       ├── domain/      # JPA 엔티티
-│   │       ├── repository/  # 데이터 액세스 레이어
-│   │       └── service/     # 비즈니스 로직
-│   └── src/main/resources/
-│       ├── application.properties
-│       ├── application-local.properties
-│       └── application-prod.properties
-├── frontend/                # React 프론트엔드
 │   ├── src/
-│   │   ├── components/      # 재사용 컴포넌트
-│   │   ├── pages/          # 페이지 컴포넌트
-│   │   └── App.tsx         # 메인 앱 컴포넌트
-│   └── public/
-└── README.md
+│   ├── build.gradle
+│   └── Dockerfile
+├── frontend/               # React TypeScript 프론트엔드
+│   ├── src/
+│   ├── package.json
+│   └── Dockerfile
+├── docker-compose.yml      # 전체 애플리케이션
+├── nginx.conf             # Nginx 설정
+└── deploy.sh              # 배포 스크립트
 ```
 
-## 🔧 API 엔드포인트
+## 🔌 API 엔드포인트
 
-### 기본 CRUD API
 - `GET /api/customers` - 고객 목록
 - `GET /api/cars` - 차량 목록
 - `GET /api/accidents` - 사고 목록
 - `GET /api/estimates` - 견적 목록
 - `GET /api/repairs` - 정비 목록
-- `GET /api/accounting` - 회계 목록
-
-### 스케줄 관리 API
 - `GET /api/schedules` - 스케줄 목록
-- `GET /api/todos` - 투두 목록
+- `GET /api/todos` - 할일 목록
 
-### 엑셀 업로드 API
-- `POST /api/excel/upload-cars` - 차량 정보 엑셀 업로드
-- `GET /api/excel/template/cars` - 엑셀 템플릿 정보
+## 🌍 도메인 설정
 
-## 📋 엑셀 업로드 형식
-
-차량 정보 엑셀 파일은 다음 형식을 따라야 합니다:
-
-| 고객명 | 차량번호 | 차량모델 | 연도 |
-|--------|----------|----------|------|
-| 홍길동 | 12가 3456 | 그랜저 | 2020 |
-
-## 🚀 배포
-
-### 로컬 개발 환경
-```bash
-# 백엔드
-cd backend
-./gradlew bootRun
-
-# 프론트엔드
-cd frontend
-npm start
+### DNS 설정 예시
+```
+A     carrepair.hmseok.com     → EC2 IP 주소
+CNAME api.carrepair.hmseok.com → carrepair.hmseok.com
 ```
 
-### 프로덕션 환경
+### SSL 인증서 설정
 ```bash
-# 백엔드 JAR 빌드
-cd backend
-./gradlew build
-java -jar build/libs/car-repair-estimate-0.0.1-SNAPSHOT.jar
-
-# 프론트엔드 빌드
-cd frontend
-npm run build
+# Let's Encrypt 사용
+sudo certbot --nginx -d carrepair.hmseok.com
 ```
 
-## 🤝 기여하기
+## 🐳 Docker 명령어
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+```bash
+# 전체 애플리케이션 실행
+docker-compose up -d
 
-## 📝 라이선스
+# 로그 확인
+docker-compose logs -f
 
-이 프로젝트는 MIT 라이선스 하에 배포됩니다.
+# 컨테이너 중지
+docker-compose down
 
-## 📞 문의
+# 이미지 재빌드
+docker-compose build --no-cache
+```
 
-프로젝트에 대한 문의사항이 있으시면 이슈를 생성해주세요. 
+## 📊 모니터링
+
+- **애플리케이션**: `http://localhost`
+- **API 문서**: `http://localhost/api`
+- **H2 콘솔**: `http://localhost/h2-console`
+- **데이터베이스**: AWS RDS MySQL
+
+## 🔒 보안 설정
+
+1. **환경 변수 사용**
+```bash
+export SPRING_DATASOURCE_PASSWORD=your_secure_password
+```
+
+2. **HTTPS 강제 적용**
+```nginx
+# nginx.conf에서 HTTP → HTTPS 리다이렉트
+return 301 https://$server_name$request_uri;
+```
+
+3. **CORS 설정**
+```java
+@CrossOrigin(origins = {"https://carrepair.hmseok.com"})
+```
+
+## 🚀 배포 체크리스트
+
+- [ ] 도메인 DNS 설정 완료
+- [ ] SSL 인증서 설치
+- [ ] 환경 변수 설정
+- [ ] 데이터베이스 연결 확인
+- [ ] API 엔드포인트 테스트
+- [ ] 프론트엔드 빌드 확인
+- [ ] 로드 밸런서 설정 (선택사항)
+- [ ] 모니터링 도구 설정 (선택사항)
+
+## 📞 지원
+
+문제가 발생하면 이슈를 등록해주세요. 

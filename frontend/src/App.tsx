@@ -20,6 +20,8 @@ import MySchedule from './pages/MySchedule';
 import './App.css';
 
 function App() {
+  console.log('App component rendered');
+  
   return (
     <div className="App">
       <Navigation />
