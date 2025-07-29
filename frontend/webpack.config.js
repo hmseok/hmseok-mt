@@ -1,15 +1,20 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 
 module.exports = {
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js',
+    clean: true,
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    fallback: {
+      "process": require.resolve("process/browser"),
+      "buffer": require.resolve("buffer"),
+      "util": require.resolve("util"),
+    },
   },
   module: {
     rules: [
@@ -33,11 +38,19 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
-      'process.env.REACT_APP_API_URL': JSON.stringify(process.env.REACT_APP_API_URL || ''),
-    }),
   ],
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
+  },
   devServer: {
     static: {
       directory: path.join(__dirname, 'public'),
@@ -53,10 +66,10 @@ module.exports = {
     },
   },
   // 개발 모드 최적화
-  optimization: {
-    removeAvailableModules: false,
-    removeEmptyChunks: false,
-    splitChunks: false,
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
   },
   // 소스맵 비활성화로 성능 향상
   devtool: 'eval-cheap-module-source-map',
