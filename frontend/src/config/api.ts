@@ -1,4 +1,4 @@
-// AWS EC2 서버로 직접 연결
+// GitHub Pages용 AWS EC2 서버 연결
 const API_BASE_URL = 'http://54.180.88.243:8080';
 
 console.log('API Base URL:', API_BASE_URL);
