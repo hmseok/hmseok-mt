@@ -4,6 +4,7 @@ import Navigation from './components/Navigation';
 import Dashboard from './pages/Dashboard';
 import CustomerList from './pages/CustomerList';
 import CarList from './pages/CarList';
+import VehicleInfo from './pages/VehicleInfo';
 import AccidentList from './pages/AccidentList';
 import EstimateList from './pages/EstimateList';
 import RepairList from './pages/RepairList';
@@ -29,7 +30,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/customers" element={<CustomerList />} />
-          <Route path="/cars" element={<CarList />} />
+          <Route path="/vehicle-info" element={<VehicleInfo />} />
           <Route path="/accidents" element={<AccidentList />} />
           <Route path="/estimates" element={<EstimateList />} />
           <Route path="/repairs" element={<RepairList />} />
