@@ -1,53 +1,94 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Dashboard from './pages/Dashboard';
 import CustomerList from './pages/CustomerList';
-import CarList from './pages/CarList';
 import VehicleInfo from './pages/VehicleInfo';
 import AccidentList from './pages/AccidentList';
 import EstimateList from './pages/EstimateList';
 import RepairList from './pages/RepairList';
 import AccountingList from './pages/AccountingList';
-import StaffList from './pages/StaffList';
-import PartList from './pages/PartList';
-import PaymentList from './pages/PaymentList';
-import TodoList from './pages/TodoList';
-import PartnerList from './pages/PartnerList';
-import DepositList from './pages/DepositList';
-import WithdrawalList from './pages/WithdrawalList';
-import ContractList from './pages/ContractList';
 import MySchedule from './pages/MySchedule';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import UserManagement from './pages/UserManagement';
 import './App.css';
 
-function App() {
-  console.log('App component rendered');
+const App: React.FC = () => {
+  console.log('App 컴포넌트 렌더링');
   
+  // 로그인 상태 확인
+  const isAuthenticated = () => {
+    const token = localStorage.getItem('token');
+    return !!token;
+  };
+
+  // 보호된 라우트 컴포넌트
+  const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    return isAuthenticated() ? <>{children}</> : <Navigate to="/login" />;
+  };
+
   return (
-    <div className="App">
-      <Navigation />
-      <main className="main-content">
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/customers" element={<CustomerList />} />
-          <Route path="/vehicle-info" element={<VehicleInfo />} />
-          <Route path="/accidents" element={<AccidentList />} />
-          <Route path="/estimates" element={<EstimateList />} />
-          <Route path="/repairs" element={<RepairList />} />
-          <Route path="/accounting" element={<AccountingList />} />
-          <Route path="/staff" element={<StaffList />} />
-          <Route path="/parts" element={<PartList />} />
-          <Route path="/payments" element={<PaymentList />} />
-          <Route path="/todos" element={<TodoList />} />
-          <Route path="/partners" element={<PartnerList />} />
-          <Route path="/deposits" element={<DepositList />} />
-          <Route path="/withdrawals" element={<WithdrawalList />} />
-          <Route path="/contracts" element={<ContractList />} />
-          <Route path="/my-schedule" element={<MySchedule />} />
-        </Routes>
-      </main>
-    </div>
+    <Router>
+      <div className="App">
+        {isAuthenticated() && <Navigation />}
+        <div className="content">
+          <Routes>
+            {/* 공개 라우트 */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            
+            {/* 보호된 라우트 */}
+            <Route path="/" element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            } />
+            <Route path="/customers" element={
+              <ProtectedRoute>
+                <CustomerList />
+              </ProtectedRoute>
+            } />
+            <Route path="/vehicle-info" element={
+              <ProtectedRoute>
+                <VehicleInfo />
+              </ProtectedRoute>
+            } />
+            <Route path="/accidents" element={
+              <ProtectedRoute>
+                <AccidentList />
+              </ProtectedRoute>
+            } />
+            <Route path="/estimates" element={
+              <ProtectedRoute>
+                <EstimateList />
+              </ProtectedRoute>
+            } />
+            <Route path="/repairs" element={
+              <ProtectedRoute>
+                <RepairList />
+              </ProtectedRoute>
+            } />
+            <Route path="/accounting" element={
+              <ProtectedRoute>
+                <AccountingList />
+              </ProtectedRoute>
+            } />
+            <Route path="/my-schedule" element={
+              <ProtectedRoute>
+                <MySchedule />
+              </ProtectedRoute>
+            } />
+            <Route path="/user-management" element={
+              <ProtectedRoute>
+                <UserManagement />
+              </ProtectedRoute>
+            } />
+          </Routes>
+        </div>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App; 

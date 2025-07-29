@@ -1,6 +1,6 @@
 .rental-car-data {
   padding: 20px;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
@@ -34,7 +34,7 @@
   border: 2px solid #e0e0e0;
   border-radius: 8px;
   font-size: 16px;
-  width: 300px;
+  width: 350px;
   transition: border-color 0.3s;
 }
 
@@ -46,6 +46,7 @@
 .filter-buttons {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .filter-buttons button {
@@ -56,6 +57,7 @@
   cursor: pointer;
   transition: all 0.3s;
   font-weight: 500;
+  font-size: 0.9rem;
 }
 
 .filter-buttons button:hover {
@@ -71,7 +73,7 @@
 
 .stats-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   margin-bottom: 30px;
 }
@@ -88,13 +90,13 @@
 .stat-card h3 {
   color: #7f8c8d;
   margin-bottom: 10px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
 }
 
 .stat-number {
   color: #2c3e50;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: bold;
   margin: 0;
 }
@@ -105,30 +107,50 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   border: 1px solid #e0e0e0;
+  overflow-x: auto;
 }
 
 .rental-table table {
   width: 100%;
   border-collapse: collapse;
+  min-width: 1200px;
 }
 
 .rental-table th {
   background: #f8f9fa;
-  padding: 15px;
+  padding: 15px 10px;
   text-align: left;
   font-weight: 600;
   color: #2c3e50;
   border-bottom: 2px solid #e0e0e0;
+  font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 .rental-table td {
-  padding: 15px;
+  padding: 12px 10px;
   border-bottom: 1px solid #e0e0e0;
   vertical-align: middle;
+  font-size: 0.9rem;
 }
 
 .rental-table tr:hover {
   background: #f8f9fa;
+  cursor: pointer;
+}
+
+.execution-number {
+  font-weight: 600;
+  color: #2c3e50;
+  font-family: 'Courier New', monospace;
+  background: #f8f9fa;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.customer-name {
+  font-weight: 500;
+  color: #2c3e50;
 }
 
 .car-number {
@@ -142,34 +164,37 @@
   color: #34495e;
 }
 
-.status-badge {
-  padding: 6px 12px;
-  border-radius: 20px;
-  color: white;
+.credit-period {
+  color: #7f8c8d;
   font-size: 0.85rem;
+  text-align: center;
+}
+
+.insurance-company {
+  color: #7f8c8d;
+  font-size: 0.85rem;
+}
+
+.customer-manager, .sales-manager {
+  color: #7f8c8d;
+  font-size: 0.85rem;
+}
+
+.status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.75rem;
   font-weight: 500;
   display: inline-block;
+  white-space: nowrap;
 }
 
-.customer-name {
-  font-weight: 500;
-  color: #2c3e50;
-}
-
-.rental-period {
-  color: #7f8c8d;
-  font-size: 0.9rem;
-}
-
-.daily-rate, .total-amount {
+.monthly-fee {
   font-weight: 600;
   color: #27ae60;
   text-align: right;
-}
-
-.location {
-  color: #7f8c8d;
-  font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 .loading {
@@ -193,7 +218,32 @@
   font-size: 1.1rem;
 }
 
+.detail-info {
+  margin-top: 20px;
+  text-align: center;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.info-text {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
 /* 반응형 디자인 */
+@media (max-width: 1200px) {
+  .rental-table {
+    overflow-x: auto;
+  }
+  
+  .rental-table table {
+    min-width: 1000px;
+  }
+}
+
 @media (max-width: 768px) {
   .controls {
     flex-direction: column;
@@ -209,14 +259,16 @@
   }
   
   .stats-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .stat-number {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-cards {
     grid-template-columns: 1fr;
-  }
-  
-  .rental-table {
-    overflow-x: auto;
-  }
-  
-  .rental-table table {
-    min-width: 800px;
   }
 } 

@@ -10,7 +10,7 @@ const VehicleInfo: React.FC = () => {
     <div className="vehicle-info">
       <div className="page-header">
         <h1>🚗 차량정보</h1>
-        <p>렌터카 실행데이터 및 차량 관리 시스템</p>
+        <p>장기렌터카 실행데이터 및 차량 관리 시스템</p>
       </div>
 
       <div className="tab-navigation">
@@ -18,7 +18,7 @@ const VehicleInfo: React.FC = () => {
           className={`tab-button ${activeTab === 'rental' ? 'active' : ''}`}
           onClick={() => setActiveTab('rental')}
         >
-          📊 렌터카 실행데이터
+          📊 장기렌터카 실행데이터
         </button>
         <button
           className={`tab-button ${activeTab === 'management' ? 'active' : ''}`}
