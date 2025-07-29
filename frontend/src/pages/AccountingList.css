@@ -1,0 +1,37 @@
+.accounting-list {
+  padding: 20px;
+}
+
+.accounting-list h1 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.accounting-table {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.accounting-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.accounting-table th,
+.accounting-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.accounting-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.accounting-table tr:hover {
+  background-color: #f8f9fa;
+} 

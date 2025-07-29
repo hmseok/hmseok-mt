@@ -1,0 +1,163 @@
+.car-list {
+  padding: 20px;
+}
+
+.car-list h1 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* 엑셀 업로드 섹션 */
+.excel-upload-section {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.excel-upload-section h3 {
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.upload-controls {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.upload-button {
+  background: #3498db;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.upload-button:hover {
+  background: #2980b9;
+}
+
+.upload-button:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.template-button {
+  background: #27ae60;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.template-button:hover {
+  background: #229954;
+}
+
+.upload-message {
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.upload-message.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.upload-message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.template-info {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid #e9ecef;
+}
+
+.template-info h4 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.template-info p {
+  color: #6c757d;
+  margin-bottom: 15px;
+}
+
+.template-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.template-table th,
+.template-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.template-table th {
+  background-color: #495057;
+  color: white;
+  font-weight: 600;
+}
+
+.template-table tr:hover {
+  background-color: #f8f9fa;
+}
+
+/* 차량 목록 테이블 */
+.table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.table-container h3 {
+  padding: 15px 20px;
+  margin: 0;
+  background: #34495e;
+  color: white;
+  font-size: 16px;
+}
+
+.car-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.car-list th,
+.car-list td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.car-list th {
+  background-color: #34495e;
+  color: white;
+  font-weight: 600;
+}
+
+.car-list tr:hover {
+  background-color: #f8f9fa;
+} 

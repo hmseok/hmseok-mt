@@ -1,0 +1,37 @@
+.partner-list {
+  padding: 20px;
+}
+
+.partner-list h1 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.table-container {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.partner-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.partner-list th,
+.partner-list td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.partner-list th {
+  background-color: #34495e;
+  color: white;
+  font-weight: 600;
+}
+
+.partner-list tr:hover {
+  background-color: #f8f9fa;
+} 
