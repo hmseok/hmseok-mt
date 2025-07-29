@@ -1,0 +1,37 @@
+.estimate-list {
+  padding: 20px;
+}
+
+.estimate-list h1 {
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.estimate-table {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+.estimate-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.estimate-table th,
+.estimate-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.estimate-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.estimate-table tr:hover {
+  background-color: #f8f9fa;
+} 
