@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-// 환경 변수에서 API URL 가져오기, 없으면 기본값 사용
-const API_BASE_URL = process.env.REACT_APP_API_URL || 
-  (process.env.NODE_ENV === 'production' 
-    ? 'https://your-backend-domain.com' // 실제 백엔드 도메인으로 변경 필요
-    : 'http://localhost:8080');
+// 간단한 환경 감지
+const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API_BASE_URL = isDevelopment ? 'http://localhost:8080' : 'https://api.carrepair.hmseok.com';
 
 // axios 기본 설정
 axios.defaults.baseURL = API_BASE_URL;

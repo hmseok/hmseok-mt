@@ -6,7 +6,7 @@
 # 설정
 EC2_HOST="54.180.88.243"
 EC2_USER="ec2-user"
-KEY_FILE="~/.ssh/hmseok-mt.pem"  # 또는 "hmseok-mt.pem" (프로젝트 루트에 있을 경우)
+KEY_FILE="hmseok-mt.pem"  # 프로젝트 루트에 저장
 APP_NAME="car-repair-backend"
 
 echo "🚀 EC2 배포 시작..."
