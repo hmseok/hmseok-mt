@@ -63,4 +63,10 @@ application-prod.properties
 logs/
 
 # OS
-Thumbs.db 
+Thumbs.db
+
+# AWS Keys and Credentials
+*.pem
+*.key
+aws-credentials
+.aws/ 
