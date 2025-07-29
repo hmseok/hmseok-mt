@@ -1,50 +1,219 @@
 .navigation {
   width: 250px;
-  background-color: #2c3e50;
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
   color: white;
-  padding: 20px 0;
   height: 100vh;
   position: fixed;
   left: 0;
   top: 0;
+  overflow-y: auto;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .nav-header {
-  padding: 0 20px 20px;
-  border-bottom: 1px solid #34495e;
+  padding: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
 }
 
 .nav-header h2 {
   margin: 0;
   font-size: 1.5rem;
+  font-weight: 700;
   color: #ecf0f1;
-  text-align: center;
+}
+
+.user-info {
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.user-name {
+  display: block;
+  font-weight: 600;
+  color: #ecf0f1;
+}
+
+.user-role {
+  display: block;
+  color: #bdc3c7;
+  font-size: 0.8rem;
+  margin-top: 2px;
 }
 
 .nav-list {
   list-style: none;
   padding: 0;
-  margin: 20px 0;
+  margin: 0;
 }
 
 .nav-list li {
   margin: 0;
 }
 
-.nav-list a {
-  display: block;
+.nav-link {
+  display: flex;
+  align-items: center;
   padding: 15px 20px;
-  color: #bdc3c7;
+  color: #ecf0f1;
   text-decoration: none;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+  font-weight: 500;
 }
 
-.nav-list a:hover {
-  background-color: #34495e;
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
   color: white;
+  border-left-color: #3498db;
 }
 
-.nav-list a.active {
-  background-color: #3498db;
+.nav-link.active {
+  background: rgba(52, 152, 219, 0.2);
   color: white;
+  border-left-color: #3498db;
+}
+
+/* 작업 중인 페이지 스타일 */
+.nav-link.working {
+  background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+  color: white;
+  border-left-color: #ff4757;
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+  animation: pulse 2s infinite;
+}
+
+/* 비활성화된 메뉴 스타일 */
+.nav-link.disabled-link {
+  background: #34495e;
+  color: #7f8c8d;
+  opacity: 0.6;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.nav-link.disabled-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+/* 작업 중 표시 */
+.working-indicator {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-right: 8px;
+  animation: blink 1.5s infinite;
+}
+
+/* 접근금지 표시 */
+.disabled-indicator {
+  display: inline-block;
+  background: rgba(231, 76, 60, 0.2);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-right: 8px;
+  color: #e74c3c;
+}
+
+.nav-footer {
+  padding: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
+}
+
+.logout-button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+  background: linear-gradient(135deg, #c0392b, #a93226);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+/* 애니메이션 */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+  }
+  50% {
+    box-shadow: 0 2px 12px rgba(255, 107, 107, 0.5);
+  }
+  100% {
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+  }
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0.5;
+  }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .navigation {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  
+  .nav-header {
+    padding: 15px;
+  }
+  
+  .nav-header h2 {
+    font-size: 1.2rem;
+  }
+  
+  .user-info {
+    margin-top: 5px;
+    padding: 8px;
+    font-size: 0.8rem;
+  }
+  
+  .nav-link {
+    padding: 12px 15px;
+    font-size: 0.9rem;
+  }
+  
+  .working-indicator,
+  .disabled-indicator {
+    font-size: 0.7rem;
+    padding: 1px 6px;
+  }
+  
+  .nav-footer {
+    padding: 15px;
+  }
+  
+  .logout-button {
+    padding: 10px;
+    font-size: 0.8rem;
+  }
 } 
