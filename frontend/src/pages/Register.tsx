@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Register.css';
 
+interface UserRole {
+  value: string;
+  displayName: string;
+  description: string;
+  icon: string;
+}
+
 interface RegisterForm {
   username: string;
   password: string;
@@ -10,11 +17,6 @@ interface RegisterForm {
   fullName: string;
   phoneNumber: string;
   role: string;
-}
-
-interface UserRole {
-  value: string;
-  displayName: string;
 }
 
 const Register: React.FC = () => {
@@ -34,38 +36,67 @@ const Register: React.FC = () => {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    // 사용자 역할 목록 가져오기
     fetchRoles();
   }, []);
 
   const fetchRoles = async () => {
     try {
       const response = await fetch('http://54.180.88.243:8080/api/auth/roles');
-      const data = await response.json();
-      setRoles(data);
-    } catch (err) {
-      console.error('역할 목록을 가져오는데 실패했습니다:', err);
+      if (response.ok) {
+        const data = await response.json();
+        const roleOptions: UserRole[] = [
+          {
+            value: 'EMPLOYEE',
+            displayName: '직원',
+            description: '회사 내부 업무를 담당하는 직원',
+            icon: '👨‍💼'
+          },
+          {
+            value: 'PARTNER',
+            displayName: '비즈니스 파트너',
+            description: '거래 및 협력을 담당하는 파트너사',
+            icon: '🤝'
+          },
+          {
+            value: 'SUPPLIER',
+            displayName: '협력사',
+            description: '전략적 협력을 담당하는 협력업체',
+            icon: '🏢'
+          }
+        ];
+        setRoles(roleOptions);
+      }
+    } catch (error) {
+      console.error('역할 정보를 가져오는데 실패했습니다:', error);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setForm(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleRoleSelect = (roleValue: string) => {
+    setForm(prev => ({
+      ...prev,
+      role: roleValue
+    }));
   };
 
   const validateForm = () => {
+    if (!form.username || !form.password || !form.email || !form.fullName || !form.role) {
+      setError('모든 필수 항목을 입력해주세요.');
+      return false;
+    }
     if (form.password !== form.confirmPassword) {
-      setError('비밀번호가 일치하지 않습니다');
+      setError('비밀번호가 일치하지 않습니다.');
       return false;
     }
     if (form.password.length < 6) {
-      setError('비밀번호는 최소 6자 이상이어야 합니다');
-      return false;
-    }
-    if (!form.role) {
-      setError('사용자 역할을 선택해주세요');
+      setError('비밀번호는 최소 6자 이상이어야 합니다.');
       return false;
     }
     return true;
@@ -73,14 +104,12 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError('');
     setSuccess('');
 
-    if (!validateForm()) {
-      setLoading(false);
-      return;
-    }
+    if (!validateForm()) return;
+
+    setLoading(true);
 
     try {
       const response = await fetch('http://54.180.88.243:8080/api/auth/register', {
@@ -100,16 +129,16 @@ const Register: React.FC = () => {
 
       const data = await response.json();
 
-      if (data.success) {
-        setSuccess(data.message);
+      if (response.ok) {
+        setSuccess('회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.');
         setTimeout(() => {
           navigate('/login');
         }, 2000);
       } else {
-        setError(data.message || '회원가입에 실패했습니다');
+        setError(data.message || '회원가입에 실패했습니다.');
       }
-    } catch (err) {
-      setError('서버 연결에 실패했습니다');
+    } catch (error) {
+      setError('서버 연결에 실패했습니다.');
     } finally {
       setLoading(false);
     }
@@ -119,128 +148,128 @@ const Register: React.FC = () => {
     <div className="register-container">
       <div className="register-card">
         <div className="register-header">
-          <h1>👤 회원가입</h1>
-          <p>Hmseok 업무 시스템에 가입하세요</p>
+          <h1 className="register-title">🔐 회원가입</h1>
+          <p className="register-subtitle">Hmseok 업무 시스템에 오신 것을 환영합니다</p>
         </div>
-        
-        <form onSubmit={handleSubmit} className="register-form">
+
+        {error && <div className="error-message">{error}</div>}
+        {success && <div className="success-message">{success}</div>}
+
+        <form className="register-form" onSubmit={handleSubmit}>
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="username">사용자명 *</label>
+              <label className="form-label">사용자명</label>
               <input
                 type="text"
-                id="username"
                 name="username"
                 value={form.username}
-                onChange={handleChange}
-                placeholder="3-20자 사이"
+                onChange={handleInputChange}
+                className="form-input"
+                placeholder="사용자명을 입력하세요"
                 required
               />
             </div>
-            
             <div className="form-group">
-              <label htmlFor="fullName">이름 *</label>
+              <label className="form-label">이름</label>
               <input
                 type="text"
-                id="fullName"
                 name="fullName"
                 value={form.fullName}
-                onChange={handleChange}
+                onChange={handleInputChange}
+                className="form-input"
                 placeholder="실명을 입력하세요"
                 required
               />
             </div>
           </div>
-          
+
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="email">이메일 *</label>
+              <label className="form-label">이메일</label>
               <input
                 type="email"
-                id="email"
                 name="email"
                 value={form.email}
-                onChange={handleChange}
-                placeholder="example@email.com"
+                onChange={handleInputChange}
+                className="form-input"
+                placeholder="이메일을 입력하세요"
                 required
               />
             </div>
-            
             <div className="form-group">
-              <label htmlFor="phoneNumber">전화번호</label>
+              <label className="form-label">전화번호</label>
               <input
                 type="tel"
-                id="phoneNumber"
                 name="phoneNumber"
                 value={form.phoneNumber}
-                onChange={handleChange}
-                placeholder="01012345678"
+                onChange={handleInputChange}
+                className="form-input"
+                placeholder="010-0000-0000"
               />
             </div>
           </div>
-          
+
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="password">비밀번호 *</label>
+              <label className="form-label">비밀번호</label>
               <input
                 type="password"
-                id="password"
                 name="password"
                 value={form.password}
-                onChange={handleChange}
-                placeholder="최소 6자 이상"
+                onChange={handleInputChange}
+                className="form-input"
+                placeholder="비밀번호를 입력하세요"
                 required
               />
             </div>
-            
             <div className="form-group">
-              <label htmlFor="confirmPassword">비밀번호 확인 *</label>
+              <label className="form-label">비밀번호 확인</label>
               <input
                 type="password"
-                id="confirmPassword"
                 name="confirmPassword"
                 value={form.confirmPassword}
-                onChange={handleChange}
-                placeholder="비밀번호 재입력"
+                onChange={handleInputChange}
+                className="form-input"
+                placeholder="비밀번호를 다시 입력하세요"
                 required
               />
             </div>
           </div>
-          
+
           <div className="form-group">
-            <label htmlFor="role">사용자 역할 *</label>
-            <select
-              id="role"
-              name="role"
-              value={form.role}
-              onChange={handleChange}
-              required
-            >
-              <option value="">역할을 선택하세요</option>
+            <label className="form-label">사용자 역할</label>
+            <div className="role-selection">
               {roles.map((role) => (
-                <option key={role.value} value={role.value}>
-                  {role.displayName}
-                </option>
+                <div
+                  key={role.value}
+                  className={`role-option ${form.role === role.value ? 'selected' : ''}`}
+                  onClick={() => handleRoleSelect(role.value)}
+                >
+                  <div className="role-icon">{role.icon}</div>
+                  <div className="role-content">
+                    <div className="role-title">{role.displayName}</div>
+                    <div className="role-description">{role.description}</div>
+                  </div>
+                  <div className="role-checkbox">
+                    {form.role === role.value && <span className="checkmark">✓</span>}
+                  </div>
+                </div>
               ))}
-            </select>
+            </div>
           </div>
-          
-          {error && <div className="error-message">{error}</div>}
-          {success && <div className="success-message">{success}</div>}
-          
-          <button type="submit" className="register-button" disabled={loading}>
+
+          <button
+            type="submit"
+            className="register-button"
+            disabled={loading}
+          >
+            {loading && <span className="loading-spinner"></span>}
             {loading ? '가입 중...' : '회원가입'}
           </button>
         </form>
-        
-        <div className="register-footer">
-          <p>이미 계정이 있으신가요?</p>
-          <button 
-            onClick={() => navigate('/login')} 
-            className="login-link"
-          >
-            로그인하기
-          </button>
+
+        <div className="login-link">
+          <p>이미 계정이 있으신가요? <a href="/login">로그인하기</a></p>
         </div>
       </div>
     </div>

@@ -1,6 +1,5 @@
-// 단순한 환경 감지 - process.env 사용하지 않음
-const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-const API_BASE_URL = isDevelopment ? 'http://localhost:8080' : 'http://54.180.88.243:8080';
+// AWS EC2 서버로 직접 연결
+const API_BASE_URL = 'http://54.180.88.243:8080';
 
 console.log('API Base URL:', API_BASE_URL);
 console.log('Current hostname:', window.location.hostname);

@@ -2,31 +2,9 @@ version: '3.8'
 
 services:
   backend:
-    build: ./backend
+    build: .
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://hmseok-mt-db.cp62mcmg4epg.ap-northeast-2.rds.amazonaws.com:3306/accident_local?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=admin
-      - SPRING_DATASOURCE_PASSWORD=Homin3231
-    depends_on:
-      - mysql
-
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:80"
-    depends_on:
-      - backend
-
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./ssl:/etc/nginx/ssl
-    depends_on:
-      - frontend
-      - backend 
+      - SPRING_PROFILES_ACTIVE=default
+    restart: unless-stopped 
