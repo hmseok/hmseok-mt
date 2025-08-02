@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 interface LoginForm {
-  username: string;
+  userId: string;
   password: string;
 }
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
-  const [form, setForm] = useState<LoginForm>({ username: '', password: '' });
+  const [form, setForm] = useState<LoginForm>({ userId: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -27,7 +27,7 @@ const Login: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://54.180.88.243:8080/api/auth/login', {
+      const response = await fetch('https://hmseok.com/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ const Login: React.FC = () => {
       if (response.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify({
-          username: data.username,
+          userId: data.userId,
           role: data.role,
           fullName: data.fullName
         }));
@@ -67,14 +67,14 @@ const Login: React.FC = () => {
 
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">사용자명</label>
+            <label className="form-label">아이디</label>
             <input
               type="text"
-              name="username"
-              value={form.username}
+              name="userId"
+              value={form.userId}
               onChange={handleInputChange}
               className="form-input"
-              placeholder="사용자명을 입력하세요"
+              placeholder="아이디를 입력하세요"
               required
             />
           </div>
@@ -104,6 +104,8 @@ const Login: React.FC = () => {
 
         <div className="register-link">
           <p>계정이 없으신가요? <a href="/register">회원가입하기</a></p>
+          <p>아이디를 잊으셨나요? <a href="/forgot-user-id">아이디 찾기</a></p>
+          <p>비밀번호를 잊으셨나요? <a href="/forgot-password">비밀번호 찾기</a></p>
         </div>
       </div>
     </div>

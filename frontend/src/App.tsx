@@ -11,6 +11,8 @@ import AccountingList from './pages/AccountingList';
 import MySchedule from './pages/MySchedule';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
+import ForgotUserId from './pages/ForgotUserId';
 import UserManagement from './pages/UserManagement';
 import './App.css';
 
@@ -39,6 +41,8 @@ const App: React.FC = () => {
           {/* 공개 라우트 */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/forgot-user-id" element={<ForgotUserId />} />
           
           {/* 보호된 라우트 */}
           <Route path="/" element={

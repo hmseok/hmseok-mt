@@ -4,6 +4,8 @@ import com.example.carrepair.domain.UserRole;
 import com.example.carrepair.dto.AuthResponse;
 import com.example.carrepair.dto.LoginRequest;
 import com.example.carrepair.dto.RegisterRequest;
+import com.example.carrepair.dto.ForgotPasswordRequest;
+import com.example.carrepair.dto.ForgotUserIdRequest;
 import com.example.carrepair.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,26 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
         AuthResponse response = userService.register(request);
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+    
+    @PostMapping("/forgot-password")
+    public ResponseEntity<AuthResponse> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
+        AuthResponse response = userService.forgotPassword(request);
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+    
+    @PostMapping("/forgot-user-id")
+    public ResponseEntity<AuthResponse> forgotUserId(@Valid @RequestBody ForgotUserIdRequest request) {
+        AuthResponse response = userService.forgotUserId(request);
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         } else {

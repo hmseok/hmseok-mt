@@ -22,8 +22,9 @@
   
   .content {
     padding: 15px;
-    border-radius: 20px 20px 0 0;
-    margin-top: 10px;
+    border-radius: 0;
+    margin-top: 0;
+    min-height: calc(100vh - 200px); /* 네비게이션 높이만큼 뺌 */
   }
 }
 
@@ -45,5 +46,152 @@
 @media (max-height: 600px) {
   .content {
     padding: 10px;
+  }
+}
+
+/* 추가 반응형 설정 */
+/* 작은 모바일 (480px 이하) */
+@media (max-width: 480px) {
+  .App {
+    flex-direction: column;
+  }
+  
+  .content {
+    padding: 10px;
+    border-radius: 15px 15px 0 0;
+    margin-top: 5px;
+  }
+}
+
+/* 중간 모바일 (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .App {
+    flex-direction: column;
+  }
+  
+  .content {
+    padding: 15px;
+    border-radius: 20px 20px 0 0;
+    margin-top: 10px;
+  }
+}
+
+/* 큰 태블릿 (1025px - 1440px) */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .content {
+    padding: 25px;
+  }
+}
+
+/* 큰 데스크톱 (1441px 이상) */
+@media (min-width: 1441px) {
+  .content {
+    padding: 40px;
+  }
+}
+
+/* 가로 모드 최적화 */
+@media (orientation: landscape) and (max-height: 500px) {
+  .content {
+    padding: 8px;
+  }
+}
+
+/* 세로 모드 최적화 */
+@media (orientation: portrait) and (max-width: 768px) {
+  .content {
+    padding: 15px;
+  }
+}
+
+/* 터치 디바이스 최적화 */
+@media (hover: none) and (pointer: coarse) {
+  .content {
+    padding: 15px;
+  }
+}
+
+/* 강력한 반응형 레이아웃 */
+/* 작은 모바일 (320px 이하) */
+@media (max-width: 320px) {
+  .App {
+    flex-direction: column;
+  }
+  
+  .content {
+    padding: 8px;
+    border-radius: 0;
+    margin-top: 0;
+    min-height: calc(100vh - 150px);
+  }
+}
+
+/* 중간 모바일 (321px - 480px) */
+@media (min-width: 321px) and (max-width: 480px) {
+  .App {
+    flex-direction: column;
+  }
+  
+  .content {
+    padding: 10px;
+    border-radius: 0;
+    margin-top: 0;
+    min-height: calc(100vh - 180px);
+  }
+}
+
+/* 큰 모바일 (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .App {
+    flex-direction: column;
+  }
+  
+  .content {
+    padding: 15px;
+    border-radius: 0;
+    margin-top: 0;
+    min-height: calc(100vh - 200px);
+  }
+}
+
+/* 작은 태블릿 (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .content {
+    padding: 20px;
+  }
+}
+
+/* 큰 태블릿 (1025px - 1440px) */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .content {
+    padding: 25px;
+  }
+}
+
+/* 큰 데스크톱 (1441px 이상) */
+@media (min-width: 1441px) {
+  .content {
+    padding: 35px;
+  }
+}
+
+/* 가로 모드 최적화 */
+@media (orientation: landscape) and (max-height: 500px) {
+  .content {
+    padding: 8px;
+  }
+}
+
+/* 세로 모드 최적화 */
+@media (orientation: portrait) and (max-width: 768px) {
+  .content {
+    padding: 15px;
+  }
+}
+
+/* 터치 디바이스 최적화 */
+@media (hover: none) and (pointer: coarse) {
+  .content {
+    padding: 15px;
   }
 } 

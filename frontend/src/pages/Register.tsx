@@ -10,7 +10,7 @@ interface UserRole {
 }
 
 interface RegisterForm {
-  username: string;
+  userId: string;
   password: string;
   confirmPassword: string;
   email: string;
@@ -22,7 +22,7 @@ interface RegisterForm {
 const Register: React.FC = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState<RegisterForm>({
-    username: '',
+    userId: '',
     password: '',
     confirmPassword: '',
     email: '',
@@ -36,40 +36,35 @@ const Register: React.FC = () => {
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    fetchRoles();
-  }, []);
-
-  const fetchRoles = async () => {
-    try {
-      const response = await fetch('http://54.180.88.243:8080/api/auth/roles');
-      if (response.ok) {
-        const data = await response.json();
-        const roleOptions: UserRole[] = [
-          {
-            value: 'EMPLOYEE',
-            displayName: '직원',
-            description: '회사 내부 업무를 담당하는 직원',
-            icon: '👨‍💼'
-          },
-          {
-            value: 'PARTNER',
-            displayName: '비즈니스 파트너',
-            description: '거래 및 협력을 담당하는 파트너사',
-            icon: '🤝'
-          },
-          {
-            value: 'SUPPLIER',
-            displayName: '협력사',
-            description: '전략적 협력을 담당하는 협력업체',
-            icon: '🏢'
-          }
-        ];
-        setRoles(roleOptions);
+    // 기본 역할 설정
+    const defaultRoles: UserRole[] = [
+      {
+        value: 'EMPLOYEE',
+        displayName: '직원',
+        description: '회사 내부 업무를 담당하는 직원',
+        icon: '👨‍💼'
+      },
+      {
+        value: 'PARTNER',
+        displayName: '비즈니스 파트너',
+        description: '거래 및 협력을 담당하는 파트너사',
+        icon: '🤝'
+      },
+      {
+        value: 'SUPPLIER',
+        displayName: '협력사',
+        description: '전략적 협력을 담당하는 협력업체',
+        icon: '🏢'
+      },
+      {
+        value: 'USER',
+        displayName: '일반 사용자',
+        description: '시스템을 이용하는 일반 사용자',
+        icon: '👤'
       }
-    } catch (error) {
-      console.error('역할 정보를 가져오는데 실패했습니다:', error);
-    }
-  };
+    ];
+    setRoles(defaultRoles);
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -87,7 +82,7 @@ const Register: React.FC = () => {
   };
 
   const validateForm = () => {
-    if (!form.username || !form.password || !form.email || !form.fullName || !form.role) {
+    if (!form.userId || !form.password || !form.email || !form.fullName || !form.role) {
       setError('모든 필수 항목을 입력해주세요.');
       return false;
     }
@@ -112,13 +107,13 @@ const Register: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://54.180.88.243:8080/api/auth/register', {
+      const response = await fetch('https://hmseok.com/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: form.username,
+          userId: form.userId,
           password: form.password,
           email: form.email,
           fullName: form.fullName,
@@ -158,14 +153,14 @@ const Register: React.FC = () => {
         <form className="register-form" onSubmit={handleSubmit}>
           <div className="form-row">
             <div className="form-group">
-              <label className="form-label">사용자명</label>
+              <label className="form-label">아이디</label>
               <input
                 type="text"
-                name="username"
-                value={form.username}
+                name="userId"
+                value={form.userId}
                 onChange={handleInputChange}
                 className="form-input"
-                placeholder="사용자명을 입력하세요"
+                placeholder="아이디를 입력하세요"
                 required
               />
             </div>

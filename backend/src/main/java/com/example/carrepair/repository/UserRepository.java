@@ -14,17 +14,25 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     
-    Optional<User> findByUsername(String username);
+    Optional<User> findByUserId(String userId);
     
     Optional<User> findByEmail(String email);
     
-    boolean existsByUsername(String username);
+    Optional<User> findByUserIdAndEmail(String userId, String email);
+    
+    Optional<User> findByEmailAndFullName(String email, String fullName);
+    
+    boolean existsByUserId(String userId);
     
     boolean existsByEmail(String email);
     
     List<User> findByRole(UserRole role);
     
     List<User> findByStatus(UserStatus status);
+    
+    long countByStatus(UserStatus status);
+    
+    long countByRoleAndStatus(UserRole role, UserStatus status);
     
     @Query("SELECT u FROM User u WHERE u.isActive = true AND u.status = 'ACTIVE'")
     List<User> findActiveUsers();

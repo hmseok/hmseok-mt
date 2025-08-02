@@ -6,56 +6,56 @@
 export const pageStatus = {
   '/': { 
     working: false, 
-    disabled: true, 
+    disabled: false, 
     order: 1,
     description: '대시보드'
   },
   '/customers': { 
     working: false, 
-    disabled: true, 
+    disabled: false, 
     order: 2,
     description: '고객 관리'
   },
   '/vehicle-info': { 
-    working: true, 
+    working: false, 
     disabled: false, 
-    order: 0, // 현재 작업 중 (상단)
+    order: 3,
     description: '차량정보 - 장기렌터카 실행데이터'
   },
   '/accidents': { 
     working: false, 
-    disabled: true, 
-    order: 3,
+    disabled: false, 
+    order: 4,
     description: '사고 관리'
   },
   '/estimates': { 
     working: false, 
-    disabled: true, 
-    order: 4,
+    disabled: false, 
+    order: 5,
     description: '견적 관리'
   },
   '/repairs': { 
     working: false, 
-    disabled: true, 
-    order: 5,
+    disabled: false, 
+    order: 6,
     description: '정비 관리'
   },
   '/accounting': { 
     working: false, 
-    disabled: true, 
-    order: 6,
+    disabled: false, 
+    order: 7,
     description: '회계 관리'
   },
   '/user-management': { 
-    working: true, 
+    working: false, 
     disabled: false, 
-    order: 1, // 사용자 관리 활성화
+    order: 8,
     description: '사용자 관리'
   },
   '/my-schedule': { 
     working: false, 
-    disabled: true, 
-    order: 7,
+    disabled: false, 
+    order: 9,
     description: '나의 스케줄'
   },
 };

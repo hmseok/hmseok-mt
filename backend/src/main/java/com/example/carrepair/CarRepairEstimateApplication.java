@@ -44,7 +44,7 @@ public class CarRepairEstimateApplication {
 			car.setCustomer(customer);
 			car.setNumber("12가 3456");
 			car.setModel("그랜저");
-			car.setYear(2020);
+			car.setCarYear(2020);
 			carRepository.save(car);
 
 			// 사고 생성

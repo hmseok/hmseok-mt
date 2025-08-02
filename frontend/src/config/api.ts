@@ -1,5 +1,8 @@
-// EC2 서버 연결
-const API_BASE_URL = 'http://54.180.88.243:8080';
+// 프로덕션 도메인 설정
+const isProduction = window.location.hostname !== 'localhost';
+const API_BASE_URL = isProduction 
+  ? 'https://hmseok.com/api' 
+  : 'http://localhost:8080/api';
 
 console.log('API Base URL:', API_BASE_URL);
 console.log('Current hostname:', window.location.hostname);

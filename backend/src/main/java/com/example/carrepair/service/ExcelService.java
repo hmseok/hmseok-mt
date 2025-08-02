@@ -49,12 +49,12 @@ public class ExcelService {
                 String yearStr = getCellValue(row.getCell(3));
                 if (yearStr != null && !yearStr.trim().isEmpty()) {
                     try {
-                        car.setYear(Integer.parseInt(yearStr.trim()));
+                        car.setCarYear(Integer.parseInt(yearStr.trim()));
                     } catch (NumberFormatException e) {
-                        car.setYear(2020); // 기본값
+                        car.setCarYear(2020); // 기본값
                     }
                 } else {
-                    car.setYear(2020); // 기본값
+                    car.setCarYear(2020); // 기본값
                 }
                 
                 cars.add(car);

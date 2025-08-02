@@ -3,9 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-  entry: './src/index.tsx',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
+  entry: path.resolve(__dirname, '../src/index.tsx'),
+      output: {
+      path: path.resolve(__dirname, '../dist'),
     filename: '[name].[contenthash].js',
     clean: true,
   },
@@ -37,7 +37,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',
+      template: path.resolve(__dirname, '../public/index.html'),
     }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify({}),
@@ -62,7 +62,7 @@ module.exports = {
   },
   devServer: {
     static: {
-      directory: path.join(__dirname, 'public'),
+      directory: path.join(__dirname, '../public'),
     },
     compress: true,
     port: 3000,

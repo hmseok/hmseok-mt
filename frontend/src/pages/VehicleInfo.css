@@ -61,14 +61,213 @@
 }
 
 /* 반응형 디자인 */
-@media (max-width: 768px) {
+/* 작은 모바일 (480px 이하) */
+@media (max-width: 480px) {
+  .vehicle-info {
+    padding: 10px;
+  }
+  
+  .vehicle-info .page-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .vehicle-info .page-header p {
+    font-size: 0.9rem;
+  }
+  
   .tab-navigation {
     flex-direction: column;
     align-items: center;
+    gap: 8px;
   }
   
   .tab-button {
     width: 100%;
-    max-width: 300px;
+    max-width: 280px;
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    min-width: auto;
+  }
+  
+  .tab-content {
+    margin: 0 5px;
+  }
+}
+
+/* 중간 모바일 (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .vehicle-info {
+    padding: 15px;
+  }
+  
+  .vehicle-info .page-header h1 {
+    font-size: 2rem;
+  }
+  
+  .vehicle-info .page-header p {
+    font-size: 1rem;
+  }
+  
+  .tab-navigation {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .tab-button {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 25px;
+    font-size: 0.95rem;
+    min-width: auto;
+  }
+}
+
+/* 태블릿 (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .vehicle-info {
+    padding: 20px;
+  }
+  
+  .vehicle-info .page-header h1 {
+    font-size: 2.2rem;
+  }
+  
+  .tab-button {
+    padding: 14px 28px;
+    font-size: 0.95rem;
+    min-width: 180px;
+  }
+}
+
+/* 큰 태블릿 (1025px - 1440px) */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .vehicle-info {
+    padding: 25px;
+  }
+  
+  .vehicle-info .page-header h1 {
+    font-size: 2.3rem;
+  }
+  
+  .tab-button {
+    padding: 15px 30px;
+    font-size: 1rem;
+    min-width: 200px;
+  }
+}
+
+/* 큰 데스크톱 (1441px 이상) */
+@media (min-width: 1441px) {
+  .vehicle-info {
+    padding: 30px;
+  }
+  
+  .vehicle-info .page-header h1 {
+    font-size: 2.8rem;
+  }
+  
+  .vehicle-info .page-header p {
+    font-size: 1.2rem;
+  }
+  
+  .tab-button {
+    padding: 18px 35px;
+    font-size: 1.1rem;
+    min-width: 220px;
+  }
+}
+
+/* 가로 모드 최적화 */
+@media (orientation: landscape) and (max-height: 500px) {
+  .vehicle-info {
+    padding: 10px;
+  }
+  
+  .vehicle-info .page-header {
+    margin-bottom: 15px;
+  }
+  
+  .vehicle-info .page-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .tab-navigation {
+    margin-bottom: 15px;
+  }
+}
+
+/* 세로 모드 최적화 */
+@media (orientation: portrait) and (max-width: 768px) {
+  .vehicle-info {
+    padding: 15px;
+  }
+}
+
+/* 터치 디바이스 최적화 */
+@media (hover: none) and (pointer: coarse) {
+  .tab-button {
+    min-height: 44px;
+    padding: 14px 25px;
+  }
+}
+
+/* 테이블 반응형 설정 */
+.vehicle-table {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.vehicle-table table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.vehicle-table th,
+.vehicle-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.vehicle-table th {
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.vehicle-table tr:hover {
+  background: #f8f9fa;
+}
+
+/* 모바일에서 테이블 스크롤 */
+@media (max-width: 768px) {
+  .vehicle-table {
+    margin: 0 -10px;
+  }
+  
+  .vehicle-table table {
+    min-width: 600px;
+  }
+  
+  .vehicle-table th,
+  .vehicle-table td {
+    padding: 8px 6px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .vehicle-table th,
+  .vehicle-table td {
+    padding: 6px 4px;
+    font-size: 0.8rem;
+  }
+  
+  .vehicle-table table {
+    min-width: 500px;
   }
 } 

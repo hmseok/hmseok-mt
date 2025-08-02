@@ -16,5 +16,5 @@ public class Car {
 
     private String number;
     private String model;
-    private Integer year;
+    private Integer carYear;
 } 

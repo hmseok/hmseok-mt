@@ -1,18 +1,82 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Production builds
+build/
+dist/
+*.jar
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# nyc test coverage
+.nyc_output
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+
+# Spring Boot
+target/
+*.class
+*.jar
+*.war
+*.ear
+
 # Gradle
 .gradle/
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
+gradle-app.setting
+!gradle-wrapper.jar
 
 # IntelliJ IDEA
 .idea/
 *.iws
 *.iml
 *.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
 
 # Eclipse
 .apt_generated
@@ -22,9 +86,6 @@ out/
 .settings
 .springBeans
 .sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
 
 # NetBeans
 /nbproject/private/
@@ -32,6 +93,9 @@ bin/
 /dist/
 /nbdist/
 /.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
 
 # VS Code
 .vscode/
@@ -39,34 +103,14 @@ bin/
 # Mac
 .DS_Store
 
-# Node.js
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# React
-frontend/build/
-frontend/dist/
-frontend/.env
-
-# Spring Boot
-application-local.properties
-application-prod.properties
-
-# Database
-*.db
-*.sqlite
-
-# Logs
-*.log
-logs/
-
-# OS
+# Windows
 Thumbs.db
+ehthumbs.db
+Desktop.ini
 
-# AWS Keys and Credentials
-*.pem
-*.key
-aws-credentials
-.aws/ 
+# Linux
+*~
+
+# Temporary files
+*.tmp
+*.temp 

@@ -12,7 +12,7 @@ public class User {
     private Long id;
     
     @Column(unique = true, nullable = false)
-    private String username;
+    private String userId;
     
     @Column(nullable = false)
     private String password;
@@ -46,8 +46,8 @@ public class User {
     // 생성자
     public User() {}
     
-    public User(String username, String password, String email, String fullName, UserRole role) {
-        this.username = username;
+    public User(String userId, String password, String email, String fullName, UserRole role) {
+        this.userId = userId;
         this.password = password;
         this.email = email;
         this.fullName = fullName;
@@ -65,12 +65,12 @@ public class User {
         this.id = id;
     }
     
-    public String getUsername() {
-        return username;
+    public String getUserId() {
+        return userId;
     }
     
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
     
     public String getPassword() {
