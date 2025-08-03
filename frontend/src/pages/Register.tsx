@@ -34,6 +34,21 @@ const Register: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  useEffect(() => {
+    // 새로고침 시 메인페이지로 이동
+    const handleBeforeUnload = () => {
+      navigate('/');
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [navigate]);
 
   useEffect(() => {
     // 기본 역할 설정
@@ -61,6 +76,12 @@ const Register: React.FC = () => {
         displayName: '일반 사용자',
         description: '시스템을 이용하는 일반 사용자',
         icon: '👤'
+      },
+      {
+        value: 'ADMIN',
+        displayName: '시스템 관리자',
+        description: '시스템 전체를 관리하는 관리자',
+        icon: '🔧'
       }
     ];
     setRoles(defaultRoles);
@@ -68,10 +89,30 @@ const Register: React.FC = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setForm(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    
+    // 전화번호 포맷팅
+    if (name === 'phoneNumber') {
+      const phoneNumber = value.replace(/[^0-9]/g, ''); // 숫자만 추출
+      let formattedNumber = '';
+      
+      if (phoneNumber.length <= 3) {
+        formattedNumber = phoneNumber;
+      } else if (phoneNumber.length <= 7) {
+        formattedNumber = `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3)}`;
+      } else {
+        formattedNumber = `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 7)}-${phoneNumber.slice(7, 11)}`;
+      }
+      
+      setForm(prev => ({
+        ...prev,
+        [name]: formattedNumber
+      }));
+    } else {
+      setForm(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleRoleSelect = (roleValue: string) => {
@@ -86,14 +127,25 @@ const Register: React.FC = () => {
       setError('모든 필수 항목을 입력해주세요.');
       return false;
     }
+    
+    // 아이디 최소 5자리 검증
+    if (form.userId.length < 5) {
+      setError('아이디는 최소 5자리 이상이어야 합니다.');
+      return false;
+    }
+    
+    // 비밀번호 복잡성 검증
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*(),.?":{}|<>])[A-Za-z\d!@#$%^&*(),.?":{}|<>]{8,}$/;
+    if (!passwordRegex.test(form.password)) {
+      setError('비밀번호는 영문, 숫자, 특수문자를 포함한 8자리 이상이어야 합니다.');
+      return false;
+    }
+    
     if (form.password !== form.confirmPassword) {
       setError('비밀번호가 일치하지 않습니다.');
       return false;
     }
-    if (form.password.length < 6) {
-      setError('비밀번호는 최소 6자 이상이어야 합니다.');
-      return false;
-    }
+    
     return true;
   };
 
@@ -208,7 +260,7 @@ const Register: React.FC = () => {
             <div className="form-group">
               <label className="form-label">비밀번호</label>
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 name="password"
                 value={form.password}
                 onChange={handleInputChange}
@@ -216,11 +268,14 @@ const Register: React.FC = () => {
                 placeholder="비밀번호를 입력하세요"
                 required
               />
+              <span className="toggle-password" onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? '숨기기' : '보이기'}
+              </span>
             </div>
             <div className="form-group">
               <label className="form-label">비밀번호 확인</label>
               <input
-                type="password"
+                type={showConfirmPassword ? 'text' : 'password'}
                 name="confirmPassword"
                 value={form.confirmPassword}
                 onChange={handleInputChange}
@@ -228,6 +283,9 @@ const Register: React.FC = () => {
                 placeholder="비밀번호를 다시 입력하세요"
                 required
               />
+              <span className="toggle-password" onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
+                {showConfirmPassword ? '숨기기' : '보이기'}
+              </span>
             </div>
           </div>
 

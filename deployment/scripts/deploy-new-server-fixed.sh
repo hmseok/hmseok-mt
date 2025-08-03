@@ -11,7 +11,7 @@ echo "🔑 키페어: $KEY_FILE"
 
 # 1. 서버 설정 스크립트 업로드
 echo "📝 서버 설정 스크립트 업로드 중..."
-scp -i $KEY_FILE -o StrictHostKeyChecking=no setup-new-server.sh ec2-user@$SERVER_IP:/home/ec2-user/
+scp -i $KEY_FILE -o StrictHostKeyChecking=no deployment/scripts/setup-new-server.sh ec2-user@$SERVER_IP:/home/ec2-user/
 
 if [ $? -ne 0 ]; then
     echo "❌ 서버 설정 스크립트 업로드 실패"

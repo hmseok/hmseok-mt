@@ -2,6 +2,7 @@
   display: flex;
   min-height: 100vh;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  overflow-x: hidden; /* 가로 스크롤 방지 */
 }
 
 .content {
@@ -12,6 +13,9 @@
   border-radius: 0 20px 20px 0;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px);
+  position: relative; /* 안정적인 위치 지정 */
+  width: 100%; /* 명시적 너비 설정 */
+  box-sizing: border-box; /* 패딩 포함 크기 계산 */
 }
 
 /* 모바일 레이아웃 */
@@ -24,7 +28,7 @@
     padding: 15px;
     border-radius: 0;
     margin-top: 0;
-    min-height: calc(100vh - 200px); /* 네비게이션 높이만큼 뺌 */
+    min-height: calc(100vh - 200px);
   }
 }
 
@@ -49,7 +53,6 @@
   }
 }
 
-/* 추가 반응형 설정 */
 /* 작은 모바일 (480px 이하) */
 @media (max-width: 480px) {
   .App {
@@ -58,8 +61,8 @@
   
   .content {
     padding: 10px;
-    border-radius: 15px 15px 0 0;
-    margin-top: 5px;
+    border-radius: 0;
+    margin-top: 0;
   }
 }
 
@@ -71,8 +74,8 @@
   
   .content {
     padding: 15px;
-    border-radius: 20px 20px 0 0;
-    margin-top: 10px;
+    border-radius: 0;
+    margin-top: 0;
   }
 }
 
@@ -111,7 +114,6 @@
   }
 }
 
-/* 강력한 반응형 레이아웃 */
 /* 작은 모바일 (320px 이하) */
 @media (max-width: 320px) {
   .App {
@@ -172,26 +174,5 @@
 @media (min-width: 1441px) {
   .content {
     padding: 35px;
-  }
-}
-
-/* 가로 모드 최적화 */
-@media (orientation: landscape) and (max-height: 500px) {
-  .content {
-    padding: 8px;
-  }
-}
-
-/* 세로 모드 최적화 */
-@media (orientation: portrait) and (max-width: 768px) {
-  .content {
-    padding: 15px;
-  }
-}
-
-/* 터치 디바이스 최적화 */
-@media (hover: none) and (pointer: coarse) {
-  .content {
-    padding: 15px;
   }
 } 

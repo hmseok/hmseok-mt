@@ -9,6 +9,19 @@ build/
 dist/
 *.jar
 
+# Large files and archives
+*.zip
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+openjdk-21.tar.gz
+nginx-1.24.0.tar.gz
+hmseok-mt.tar.gz
+car-repair-estimate.zip
+jdk-21.0.2_linux-x64_bin.tar.gz
+openjdk-21.0.2_linux-x64_bin.tar.gz
+
 # Environment variables
 .env
 .env.local

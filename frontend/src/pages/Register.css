@@ -122,6 +122,44 @@
   font-weight: 400;
 }
 
+/* 비밀번호 토글 버튼 스타일 */
+.form-group {
+  text-align: left;
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+  z-index: 10;
+}
+
+.toggle-password:hover {
+  background: rgba(102, 126, 234, 0.2);
+  color: #5a67d8;
+  transform: translateY(-50%) scale(1.05);
+}
+
+.toggle-password:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* 비밀번호 입력 필드에 토글 버튼이 있을 때 패딩 조정 */
+.form-group:has(.toggle-password) .form-input {
+  padding-right: 80px;
+}
+
 /* 역할 선택 스타일 */
 .role-selection {
   display: flex;
