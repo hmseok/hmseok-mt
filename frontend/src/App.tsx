@@ -14,6 +14,7 @@ import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ForgotUserId from './pages/ForgotUserId';
 import UserManagement from './pages/UserManagement';
+import DevelopmentLog from './pages/DevelopmentLog';
 import './App.css';
 
 const App: React.FC = () => {
@@ -60,6 +61,25 @@ const App: React.FC = () => {
     const authenticated = isAuthenticated || checkAuthentication();
     console.log('인증 상태:', authenticated ? '로그인됨' : '로그인 필요');
     return authenticated ? <>{children}</> : <Navigate to="/login" />;
+  };
+
+  // 관리자 전용 라우트 컴포넌트
+  const AdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const authenticated = isAuthenticated || checkAuthentication();
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const isAdmin = user.role === 'ADMIN';
+    
+    console.log('관리자 권한 확인:', isAdmin ? '관리자' : '일반 사용자');
+    
+    if (!authenticated) {
+      return <Navigate to="/login" />;
+    }
+    
+    if (!isAdmin) {
+      return <Navigate to="/" />;
+    }
+    
+    return <>{children}</>;
   };
 
   // 로딩 중일 때 표시할 컴포넌트
@@ -128,6 +148,13 @@ const App: React.FC = () => {
             <ProtectedRoute>
               <UserManagement />
             </ProtectedRoute>
+          } />
+          
+          {/* 관리자 전용 라우트 */}
+          <Route path="/development-logs" element={
+            <AdminRoute>
+              <DevelopmentLog />
+            </AdminRoute>
           } />
         </Routes>
       </div>
