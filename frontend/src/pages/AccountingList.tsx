@@ -22,7 +22,7 @@ const AccountingList: React.FC = () => {
 
   const fetchAccountings = async () => {
     try {
-      const data = await apiClient.get('/api/accountings');
+      const data = await apiClient.get('/accountings');
       setAccountings(data);
     } catch (error) {
       console.error('회계 목록을 불러오는데 실패했습니다:', error);

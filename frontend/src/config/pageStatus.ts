@@ -1,63 +1,122 @@
-// 페이지 상태 관리 설정
-// working: true = 공사중 (상단으로 이동, 밝은 색)
-// disabled: true = 비활성화 (어두운 색, 접근금지)
-// order: 숫자 = 정렬 순서 (낮은 숫자가 상단)
+export interface PageStatus {
+  working: boolean;    // 공사중
+  disabled: boolean;   // 접근금지
+  order: number;       // 메뉴 순서
+}
 
-export const pageStatus = {
-  '/': { 
-    working: false, 
-    disabled: false, 
-    order: 1,
-    description: '대시보드'
+export const pageStatus: Record<string, PageStatus> = {
+  '/': {
+    working: false,
+    disabled: false,
+    order: 1
   },
-  '/customers': { 
-    working: false, 
-    disabled: false, 
-    order: 2,
-    description: '고객 관리'
+  '/customers': {
+    working: false,
+    disabled: false,
+    order: 2
   },
-  '/vehicle-info': { 
-    working: false, 
-    disabled: false, 
-    order: 3,
-    description: '차량정보 - 장기렌터카 실행데이터'
+  '/cars': {
+    working: false,
+    disabled: false,
+    order: 3
   },
-  '/accidents': { 
-    working: false, 
-    disabled: false, 
-    order: 4,
-    description: '사고 관리'
+  '/accidents': {
+    working: false,
+    disabled: false,
+    order: 4
   },
-  '/estimates': { 
-    working: false, 
-    disabled: false, 
-    order: 5,
-    description: '견적 관리'
+  '/estimates': {
+    working: false,
+    disabled: false,
+    order: 5
   },
-  '/repairs': { 
-    working: false, 
-    disabled: false, 
-    order: 6,
-    description: '정비 관리'
+  '/repairs': {
+    working: false,
+    disabled: false,
+    order: 6
   },
-  '/accounting': { 
-    working: false, 
-    disabled: false, 
-    order: 7,
-    description: '회계 관리'
+  '/accountings': {
+    working: false,
+    disabled: false,
+    order: 7
   },
-  '/user-management': { 
-    working: false, 
-    disabled: false, 
-    order: 8,
-    description: '사용자 관리'
+  '/users': {
+    working: false,
+    disabled: false,
+    order: 8
   },
-  '/my-schedule': { 
-    working: false, 
-    disabled: false, 
-    order: 9,
-    description: '나의 스케줄'
+  '/schedule': {
+    working: false,
+    disabled: false,
+    order: 9
   },
+  // 빈 페이지들 (접근금지)
+  '/vehicle-info': {
+    working: false,
+    disabled: true,
+    order: 10
+  },
+  '/contracts': {
+    working: false,
+    disabled: true,
+    order: 11
+  },
+  '/deposits': {
+    working: false,
+    disabled: true,
+    order: 12
+  },
+  '/payments': {
+    working: false,
+    disabled: true,
+    order: 13
+  },
+  '/withdrawals': {
+    working: false,
+    disabled: true,
+    order: 14
+  },
+  '/parts': {
+    working: false,
+    disabled: true,
+    order: 15
+  },
+  '/partners': {
+    working: false,
+    disabled: true,
+    order: 16
+  },
+  '/staff': {
+    working: false,
+    disabled: true,
+    order: 17
+  },
+  '/rental-cars': {
+    working: false,
+    disabled: true,
+    order: 18
+  },
+  '/todos': {
+    working: false,
+    disabled: true,
+    order: 19
+  },
+  // 공사중인 페이지들
+  '/reports': {
+    working: true,
+    disabled: false,
+    order: 20
+  },
+  '/analytics': {
+    working: true,
+    disabled: false,
+    order: 21
+  },
+  '/settings': {
+    working: true,
+    disabled: false,
+    order: 22
+  }
 };
 
 // 페이지 상태 변경 함수 (향후 사용)

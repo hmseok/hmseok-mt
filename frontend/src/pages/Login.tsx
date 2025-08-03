@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
@@ -12,6 +12,18 @@ const Login: React.FC = () => {
   const [form, setForm] = useState<LoginForm>({ userId: '', password: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // 로그인 페이지 접속 시 이미 로그인된 상태인지 확인
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    
+    if (token && user) {
+      // 이미 로그인된 상태라면 홈으로 리다이렉트
+      console.log('이미 로그인된 상태 - 홈으로 리다이렉트');
+      navigate('/');
+    }
+  }, [navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -38,14 +50,23 @@ const Login: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
+        console.log('로그인 성공:', data);
+        
+        // 토큰 저장
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify({
-          userId: data.userId,
+          userId: data.userId || data.username,
           role: data.role,
           fullName: data.fullName
         }));
+        
+        console.log('토큰 저장 완료:', localStorage.getItem('token'));
+        console.log('사용자 정보 저장 완료:', localStorage.getItem('user'));
+        
+        // 홈으로 이동
         navigate('/');
       } else {
+        console.log('로그인 실패:', data);
         setError(data.message || '로그인에 실패했습니다.');
       }
     } catch (error) {

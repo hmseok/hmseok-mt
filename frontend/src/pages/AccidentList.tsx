@@ -21,7 +21,7 @@ const AccidentList: React.FC = () => {
 
   const fetchAccidents = async () => {
     try {
-      const data = await apiClient.get('/api/accidents');
+      const data = await apiClient.get('/accidents');
       setAccidents(data);
     } catch (error) {
       console.error('사고 목록을 불러오는데 실패했습니다:', error);

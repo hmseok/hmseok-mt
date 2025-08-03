@@ -22,7 +22,7 @@ const CarList: React.FC = () => {
 
   const fetchCars = async () => {
     try {
-      const data = await apiClient.get('/api/cars');
+      const data = await apiClient.get('/cars');
       setCars(data);
     } catch (error) {
       console.error('차량 목록을 불러오는데 실패했습니다:', error);

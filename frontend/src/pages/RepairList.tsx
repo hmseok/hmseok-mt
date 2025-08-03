@@ -21,7 +21,7 @@ const RepairList: React.FC = () => {
 
   const fetchRepairs = async () => {
     try {
-      const data = await apiClient.get('/api/repairs');
+      const data = await apiClient.get('/repairs');
       setRepairs(data);
     } catch (error) {
       console.error('수리 목록을 불러오는데 실패했습니다:', error);

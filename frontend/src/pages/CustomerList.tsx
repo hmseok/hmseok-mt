@@ -1,61 +1,57 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import apiClient from '../config/api';
 import './CustomerList.css';
 
-interface Customer {
-  id: number;
-  name: string;
-  phone: string;
-  insurance: string;
-}
-
 const CustomerList: React.FC = () => {
-  const [customers, setCustomers] = useState<Customer[]>([]);
+  const navigate = useNavigate();
+  const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // 인증 체크
   useEffect(() => {
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    
+    if (!token || !user) {
+      console.log('인증되지 않은 사용자 - 로그인 페이지로 리다이렉트');
+      navigate('/login');
+      return;
+    }
+    
+    console.log('인증된 사용자 - 고객 관리 페이지 접근 허용');
+  }, [navigate]);
+
+  useEffect(() => {
+    const fetchCustomers = async () => {
+      try {
+        const data = await apiClient.get('/customers');
+        setCustomers(data);
+      } catch (error) {
+        console.error('고객 데이터 로딩 실패:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchCustomers();
   }, []);
 
-  const fetchCustomers = async () => {
-    try {
-      const data = await apiClient.get('/api/customers');
-      setCustomers(data);
-    } catch (error) {
-      console.error('고객 목록을 불러오는데 실패했습니다:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   if (loading) {
-    return <div>로딩 중...</div>;
+    return <div className="customer-list">로딩 중...</div>;
   }
 
   return (
     <div className="customer-list">
       <h1>고객 관리</h1>
-      <div className="customer-table">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>이름</th>
-              <th>전화번호</th>
-              <th>보험사</th>
-            </tr>
-          </thead>
-          <tbody>
-            {customers.map((customer) => (
-              <tr key={customer.id}>
-                <td>{customer.id}</td>
-                <td>{customer.name}</td>
-                <td>{customer.phone}</td>
-                <td>{customer.insurance}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="customer-grid">
+        {customers.map((customer: any) => (
+          <div key={customer.id} className="customer-card">
+            <h3>{customer.name}</h3>
+            <p>전화번호: {customer.phone}</p>
+            <p>보험사: {customer.insurance}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

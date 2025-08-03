@@ -21,7 +21,7 @@ const EstimateList: React.FC = () => {
 
   const fetchEstimates = async () => {
     try {
-      const data = await apiClient.get('/api/estimates');
+      const data = await apiClient.get('/estimates');
       setEstimates(data);
     } catch (error) {
       console.error('견적 목록을 불러오는데 실패했습니다:', error);

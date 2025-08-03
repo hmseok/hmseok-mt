@@ -50,6 +50,12 @@ const Register: React.FC = () => {
     };
   }, [navigate]);
 
+  // 회원가입 페이지 접속 시 기존 토큰 클리어
+  useEffect(() => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  }, []);
+
   useEffect(() => {
     // 기본 역할 설정
     const defaultRoles: UserRole[] = [
@@ -182,10 +188,20 @@ const Register: React.FC = () => {
           navigate('/login');
         }, 2000);
       } else {
-        setError(data.message || '회원가입에 실패했습니다.');
+        // 서버에서 반환된 구체적인 오류 메시지 표시
+        const errorMessage = data.message || '회원가입에 실패했습니다.';
+        setError(errorMessage);
+        
+        // 콘솔에 디버깅 정보 출력
+        console.error('회원가입 실패:', {
+          status: response.status,
+          statusText: response.statusText,
+          data: data
+        });
       }
     } catch (error) {
-      setError('서버 연결에 실패했습니다.');
+      console.error('네트워크 오류:', error);
+      setError('서버 연결에 실패했습니다. 인터넷 연결을 확인하고 다시 시도해주세요.');
     } finally {
       setLoading(false);
     }

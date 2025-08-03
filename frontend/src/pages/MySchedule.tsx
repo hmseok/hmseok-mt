@@ -23,7 +23,7 @@ const MySchedule: React.FC = () => {
 
   const fetchSchedules = async () => {
     try {
-      const data = await apiClient.get('/api/schedules');
+      const data = await apiClient.get('/schedules');
       setSchedules(data);
     } catch (error) {
       console.error('일정을 불러오는데 실패했습니다:', error);
