@@ -8,7 +8,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-console.log('index.tsx 실행됨 - 보안 시스템 시작');
+console.log('index.tsx 실행됨');
 
 root.render(
   <BrowserRouter>

@@ -11,6 +11,7 @@ import com.example.carrepair.security.JwtUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -29,6 +30,9 @@ public class AuthController {
     
     @Autowired
     private JwtUtil jwtUtil;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
@@ -70,6 +74,15 @@ public class AuthController {
         }
     }
     
+    // 임시: 비밀번호 해시 생성 엔드포인트
+    @GetMapping("/hash-password")
+    public ResponseEntity<Map<String, String>> hashPassword(@RequestParam String password) {
+        Map<String, String> response = new HashMap<>();
+        response.put("password", password);
+        response.put("hash", passwordEncoder.encode(password));
+        return ResponseEntity.ok(response);
+    }
+    
     @GetMapping("/validate")
     public ResponseEntity<Map<String, Object>> validateToken(@RequestHeader("Authorization") String authHeader) {
         Map<String, Object> response = new HashMap<>();
@@ -98,10 +111,9 @@ public class AuthController {
                 response.put("message", "Invalid or expired token");
                 return ResponseEntity.badRequest().body(response);
             }
-            
         } catch (Exception e) {
             response.put("valid", false);
-            response.put("message", "Token validation failed: " + e.getMessage());
+            response.put("message", "Token validation error: " + e.getMessage());
             return ResponseEntity.badRequest().body(response);
         }
     }
@@ -109,12 +121,22 @@ public class AuthController {
     @GetMapping("/roles")
     public ResponseEntity<List<UserRoleInfo>> getAvailableRoles() {
         List<UserRoleInfo> roles = Arrays.stream(UserRole.values())
-                .map(role -> new UserRoleInfo(role.name(), role.getDisplayName()))
+                .map(role -> new UserRoleInfo(role.name(), getDisplayName(role)))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(roles);
     }
     
-    // 내부 클래스
+    private String getDisplayName(UserRole role) {
+        switch (role) {
+            case ADMIN: return "시스템 관리자";
+            case EMPLOYEE: return "직원";
+            case PARTNER: return "비즈니스 파트너";
+            case SUPPLIER: return "협력사";
+            case USER: return "일반 사용자";
+            default: return role.name();
+        }
+    }
+    
     public static class UserRoleInfo {
         private String value;
         private String displayName;

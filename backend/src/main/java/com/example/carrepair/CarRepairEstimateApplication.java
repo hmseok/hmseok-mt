@@ -14,6 +14,7 @@ import com.example.carrepair.repository.TodoRepository;
 import com.example.carrepair.domain.Schedule;
 import com.example.carrepair.domain.Todo;
 import java.time.LocalDate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class CarRepairEstimateApplication {
@@ -30,8 +31,47 @@ public class CarRepairEstimateApplication {
 										  RepairRepository repairRepository,
 										  AccountingRepository accountingRepository,
 										  ScheduleRepository scheduleRepository,
-										  TodoRepository todoRepository) {
+										  TodoRepository todoRepository,
+										  UserRepository userRepository,
+										  PasswordEncoder passwordEncoder) {
 		return args -> {
+			// 기본 사용자 생성
+			if (userRepository.findByUserId("admin").isEmpty()) {
+				User adminUser = new User();
+				adminUser.setUserId("admin");
+				adminUser.setPassword(passwordEncoder.encode("Admin123!"));
+				adminUser.setFullName("관리자");
+				adminUser.setEmail("admin@hmseok.com");
+				adminUser.setPhoneNumber("01012345678");
+				adminUser.setRole(UserRole.ADMIN);
+				adminUser.setStatus(UserStatus.ACTIVE);
+				userRepository.save(adminUser);
+			}
+
+			if (userRepository.findByUserId("demo").isEmpty()) {
+				User demoUser = new User();
+				demoUser.setUserId("demo");
+				demoUser.setPassword(passwordEncoder.encode("Demo123!"));
+				demoUser.setFullName("데모사용자");
+				demoUser.setEmail("demo@hmseok.com");
+				demoUser.setPhoneNumber("01012345678");
+				demoUser.setRole(UserRole.USER);
+				demoUser.setStatus(UserStatus.ACTIVE);
+				userRepository.save(demoUser);
+			}
+
+			if (userRepository.findByUserId("newuser").isEmpty()) {
+				User newUser = new User();
+				newUser.setUserId("newuser");
+				newUser.setPassword(passwordEncoder.encode("NewUser123!"));
+				newUser.setFullName("새사용자");
+				newUser.setEmail("newuser@hmseok.com");
+				newUser.setPhoneNumber("01012345678");
+				newUser.setRole(UserRole.USER);
+				newUser.setStatus(UserStatus.ACTIVE);
+				userRepository.save(newUser);
+			}
+
 			// 고객 생성
 			Customer customer = new Customer();
 			customer.setName("홍길동");

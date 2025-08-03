@@ -265,9 +265,14 @@ const Register: React.FC = () => {
                 type="tel"
                 name="phoneNumber"
                 value={form.phoneNumber}
-                onChange={handleInputChange}
+                onChange={(e) => {
+                  // 하이픈 제거하고 숫자만 허용
+                  const value = e.target.value.replace(/[^0-9]/g, '');
+                  setForm({...form, phoneNumber: value});
+                }}
                 className="form-input"
-                placeholder="010-0000-0000"
+                placeholder="01012345678 (하이픈 없이)"
+                maxLength={11}
               />
             </div>
           </div>
